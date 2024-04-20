@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+
+<head>
+	<title>Register Form</title>
+	<link rel="stylesheet" th:href="@{/css/spacelab/bootstrap.min.css}" />
+</head>
+<body>
+
+	<div layout:fragment="content" class="container mySpace">
+		<!-- we will now create an input field for this email & bind it with the email field of the user class.
+in order to do that we need to declare the object that we just passed from the backend -->
+<!-- th:action="@{/register}"  -->
+
+		<div class="alert alert-success" th:if="${success}">
+			<p class="text text-center">
+				User registered successfully
+			</p>
+		</div>
+		<div class="alert alert-danger" th:if="${error}">
+			<p class="text text-center" th:text="${error}">
+			</p>
+		</div>
+		<form th:action="@{/task-app/api/users}" th:object="${user}" method="post">
+
+			<div class="form-group">
+				<label for="role" class="form-control-lg">Role</label>
+				<select class="form-control" th:field="*{role}" id="role">
+					<option value="USER">User</option>
+					<option value="ADMIN">Admin</option>
+				</select>
+				<div class="text text-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div>
+			</div>
+
+			<div class="form-group">
+				<label for="username" class="form-control-lg">Username</label> <input
+					type="text" class="form-control" th:field="*{username}" id="username" />
+				<div class="text text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" ></div>
+			</div>
+
+			<div class="form-group">
+				<label for="password" class="form-control-lg">Password</label> <input type="password" class="form-control" th:field="*{password}" id="password" />
+				<div class="text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></div>
+			</div>
+
+			<input type="submit" value="Register User" class="btn btn-primary" />
+
+		</form>
+	</div>
+
+</body>
+</html>

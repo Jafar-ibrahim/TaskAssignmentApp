@@ -1,6 +1,8 @@
 package org.example.taskassignmentapp.Enum;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role{
     ADMIN,
-    NORMAL_USER
+    USER;
 }

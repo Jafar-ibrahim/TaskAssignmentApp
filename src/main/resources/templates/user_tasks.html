@@ -1,0 +1,70 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	layout:decorate="~{fragments/main_layout}">
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/spacelab/bootstrap.min.css}" />
+	<style>
+		.mySpace{
+			padding-top: 20px;
+		}
+	</style>
+</head>
+<body>
+
+ 
+<div layout:fragment="content" class="container mySpace">
+	<div class="alert alert-success" th:if="${success}">
+		<p class="text text-center" th:text="${success}">
+		</p>
+	</div>
+	<div class="alert alert-danger" th:if="${error}">
+		<p class="text text-center" th:text="${error}">
+		</p>
+	</div>
+	<div class="card">
+		<div class="card card-body">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Description</th>
+					<th>Assigner</th>
+					<th>Assignee</th>
+					<th>Start Date</th>
+					<th>End Date</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			<tr th:each="task:${tasks}">
+				<td th:text="${task.title}"></td>
+				<td th:text="${task.description}"></td>
+				<td th:text="${task.assigner}"></td>
+				<td th:text="${task.assignee}"></td>
+				<td th:text="${task.startDate}"></td>
+				<td th:text="${task.endDate}"></td>
+				<td th:text="${task.status}"></td>
+				<td>
+					<form th:action="@{/task-app/api/tasks/status}" method="post">
+						<input type="hidden" name="taskId" th:value="${task.id}" />
+						<select name="newStatus" class="form-control">
+							<option value="ASSIGNED">Assigned</option>
+							<option value="IN_PROGRESS">In Progress</option>
+							<option value="COMPLETED">Completed</option>
+						</select>
+						<button type="submit" class="btn btn-primary mt-2">Update Status</button>
+					</form>
+				</td>
+			</tr>
+			</tbody>
+		
+		</table>
+		</div>
+	
+	</div>
+</div>
+
+</body>
+</html>

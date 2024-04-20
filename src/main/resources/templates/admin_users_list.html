@@ -1,0 +1,75 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}" lang="en">
+
+    <head>
+        <link rel="stylesheet" th:href="@{/css/spacelab/bootstrap.min.css}" />
+        <style>
+            .mySpace{
+                padding-top: 20px;
+            }
+        </style>
+        <title>Current Users</title>
+    </head>
+    <body>
+
+        <div layout:fragment="content" class="container mySpace">
+            <div class="alert alert-success" th:if="${success}">
+                <p class="text text-center" th:text="${success}">
+                </p>
+            </div>
+            <div class="alert alert-danger" th:if="${error}">
+                <p class="text text-center" th:text="${error}">
+                </p>
+            </div>
+            <form action="/users" class="form-inline">
+                <div class="form-group mb-2">
+                    <input type="text" class="form-control" name="name" placeholder="Search User" />
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+            </form>
+
+            <div class="card">
+                <div class="card card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Add Task</th>
+                            <th>Assigned Tasks</th>
+                            <th>Delete User</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="user:${users}">
+                            <td th:text="${user.username}"></td>
+
+                            <td>
+                                <form th:action="@{/task-app/api/tasks/add-task}" method="get">
+                                    <input type="hidden" name="username" th:value="${user.username}" />
+                                    <button type="submit" class="btn btn-primary">Add Task</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form th:action="@{/task-app/api/tasks/{username}(username=${user.username})}" method="get">
+                                    <button type="submit" class="btn btn-info">View Tasks</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form th:action="@{/task-app/api/users/{username}(username=${user.username})}" method="post">
+                                    <input type="hidden" name="_method" value="delete" />
+                                    <button type="submit" class="btn btn-danger">Delete User</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </body>
+</html>
