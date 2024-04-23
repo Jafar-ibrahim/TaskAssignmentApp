@@ -49,6 +49,7 @@
 				<td>
 					<form th:action="@{/task-app/api/tasks/status}" method="post">
 						<input type="hidden" name="taskId" th:value="${task.id}" />
+						<input type="hidden" name="username" th:value="${username}" />
 						<select name="newStatus" class="form-control">
 							<option value="ASSIGNED">Assigned</option>
 							<option value="IN_PROGRESS">In Progress</option>

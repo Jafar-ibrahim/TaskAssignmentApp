@@ -86,14 +86,14 @@ public class DocumentService {
     }
 
     public List<JsonNode> fetchAllDocumentsByPropertyValue(String propertyName, String propertyValue, String username, String password) {
-        String url = databaseService.getCollectionUrl() + "/documents?property_name=" + propertyName + "&property_value=" + propertyValue;
+        String url = databaseService.getCollectionUrl() + "/documents?property_name=" + propertyName + "&property_value=\"" + propertyValue+"\"";
         try {
             ResponseEntity<String> response = makeRequest(url, HttpMethod.GET, null, username, password);
             List<JsonNode> documents = mapper.readValue(response.getBody(), mapper.getTypeFactory().constructCollectionType(List.class, JsonNode.class));
-            log.info("Fetched all documents by property value successfully");
+            log.info("Fetched all documents by property : " + propertyName + " value: " + propertyValue);
             return documents;
         } catch (Exception e) {
-            log.error("Failed to fetch all documents by property value: " + e.getMessage());
+            log.error("Failed to fetch all documents by property : " + propertyName + " value: " + propertyValue + " with error: " + e.getMessage());
             return new ArrayList<>();
         }
     }

@@ -38,7 +38,7 @@ public class TaskService {
     public boolean updateTaskStatus(String taskId, TaskStatus status, String adminUsername, String adminPassword){
         ObjectMapper objectMapper = new ObjectMapper();
         Optional<ObjectNode> task = documentService.getDocumentById(taskId, adminUsername, adminPassword);
-        Long taskVersion = task.map(t -> t.get("version").asLong()).orElse(null);
+        Long taskVersion = task.map(t -> t.get("_version").asLong()).orElse(null);
         if(task.isPresent()){
             ObjectNode statusNode = objectMapper.createObjectNode();
             statusNode.put("status", status.toString());

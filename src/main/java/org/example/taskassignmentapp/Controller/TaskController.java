@@ -69,14 +69,12 @@ public class TaskController {
         List<Task> tasks =  taskService.getTasksByUsername(username, "admin", "admin");
         model.addAttribute("tasks", tasks);
         model.addAttribute("username", username);
-        tasks.add(new Task("Task 1", "Task 1 description", "admin", username,"2024-05-20","2024-05-23", TaskStatus.ASSIGNED));
-        tasks.add(new Task("Task 2", "Task 2 description", "admin", username,"2024-06-14","2024-07-28", TaskStatus.ASSIGNED));
         return "user_tasks";
     }
 
     @PostMapping("/status")
     public String updateTaskStatus(@RequestParam("taskId") String taskId,
-                                   @RequestParam("status") TaskStatus status,
+                                   @RequestParam("newStatus") TaskStatus status,
                                    @RequestParam("username") String username , Model model){
 
         if(taskService.updateTaskStatus(taskId, status, "admin", "admin")) {
