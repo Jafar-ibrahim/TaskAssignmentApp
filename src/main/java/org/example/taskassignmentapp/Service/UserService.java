@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.example.taskassignmentapp.Enum.Role;
 import org.example.taskassignmentapp.Model.User;
 import org.example.taskassignmentapp.Model.UserDTO;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -13,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Log4j2
 @Service
 public class UserService {
@@ -77,12 +80,24 @@ public class UserService {
 
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<List> response = restTemplate.exchange(BASE_URL, HttpMethod.GET, entity, List.class);
+            ResponseEntity<List<UserDTO>> response = restTemplate.exchange(
+                    BASE_URL,
+                    HttpMethod.GET,
+                    entity,
+                    new ParameterizedTypeReference<>() {}
+            );
             return response.getBody();
-        }catch (HttpStatusCodeException e){
+        } catch (HttpStatusCodeException e) {
             log.error("Failed to create document: with status code: " + e.getStatusCode() + " and message: " + e.getResponseBodyAsString());
             return new ArrayList<>();
         }
+    }
+
+    public List<UserDTO> searchByUsername(String username, String adminUsername, String adminPassword){
+        List<UserDTO> allUsers = getAllUsers(adminUsername, adminPassword);
+        return allUsers.stream()
+                .filter(user -> user.getUsername().toLowerCase().contains(username.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     public boolean userExists(String username) {

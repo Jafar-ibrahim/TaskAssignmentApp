@@ -22,9 +22,9 @@
                 <p class="text text-center" th:text="${error}">
                 </p>
             </div>
-            <form action="/users" class="form-inline">
+            <form action="/task-app/api/tasks/users-list" class="form-inline">
                 <div class="form-group mb-2">
-                    <input type="text" class="form-control" name="name" placeholder="Search User" />
+                    <input type="text" class="form-control" name="username_search" placeholder="Search User" />
                     <input type="submit" value="Search" class="btn btn-primary" />
                 </div>
             </form>

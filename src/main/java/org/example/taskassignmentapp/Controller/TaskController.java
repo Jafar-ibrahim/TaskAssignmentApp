@@ -58,10 +58,15 @@ public class TaskController {
         return "redirect:/task-app/api/tasks/add-task?username=" + assignee;
     }
     @GetMapping("/users-list")
-    public String getUsersList(Model model) {
-        model.addAttribute("users", userService.getAllUsers("admin", "admin"));
+    public String getUsersList(@RequestParam(value = "username_search",required = false) String usernameSearch ,Model model) {
+        if (usernameSearch != null && !usernameSearch.isEmpty()) {
+            model.addAttribute("users", userService.searchByUsername(usernameSearch, "admin", "admin"));
+        }else {
+            model.addAttribute("users", userService.getAllUsers("admin", "admin"));
+        }
         return "admin_users_list";
     }
+
 
 
     @GetMapping("/{username}")
