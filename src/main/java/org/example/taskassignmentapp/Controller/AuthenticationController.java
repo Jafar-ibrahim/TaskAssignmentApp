@@ -40,7 +40,7 @@ public class AuthenticationController {
             if (user.getRole() == Role.ADMIN)
                 return "redirect:/task-app/api/tasks/users-list";
             else if (user.getRole() == Role.USER){
-                return "redirect:/task-app/api/user/tasks";
+                return "redirect:/task-app/api/tasks/"+user.getUsername();
             }
         }
 

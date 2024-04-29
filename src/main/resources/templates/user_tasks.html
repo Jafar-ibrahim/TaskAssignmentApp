@@ -8,6 +8,10 @@
 		.mySpace{
 			padding-top: 20px;
 		}
+		.card p{
+			font-size: 20px;
+			align-self: center;
+		}
 	</style>
 </head>
 <body>
@@ -24,6 +28,9 @@
 	</div>
 	<div class="card">
 		<div class="card card-body">
+		<p>
+			Tasks Assigned For User: <strong th:text="${username}"></strong>
+		</p>
 		<table class="table table-hover">
 			<thead>
 				<tr>
