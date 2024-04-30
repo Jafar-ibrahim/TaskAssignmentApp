@@ -35,6 +35,10 @@ public class TaskService {
         return task;
     }
 
+    public boolean deleteTask(String taskId, String adminUsername, String adminPassword){
+        return documentService.deleteDocument(taskId, adminUsername, adminPassword);
+    }
+
     public boolean updateTaskStatus(String taskId, TaskStatus status, String adminUsername, String adminPassword){
         ObjectMapper objectMapper = new ObjectMapper();
         Optional<ObjectNode> task = documentService.getDocumentById(taskId, adminUsername, adminPassword);
@@ -59,6 +63,10 @@ public class TaskService {
             tasks.add(new Task(taskNode));
         }
         return tasks;
+    }
+
+    public void deleteTasksByAssignee(String assignee, String adminUsername, String adminPassword){
+        documentService.deleteAllDocumentsByPropertyValue("assignee", assignee, adminUsername, adminPassword);
     }
 
 

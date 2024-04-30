@@ -47,11 +47,16 @@ public class AuthenticationService {
     public int getUserNode(String username){
         String url =  "http://host.docker.internal:8082/bootstrapper/users/"+username+"/node";
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
-        if(Objects.requireNonNull(response.getBody()).matches("\\d+")) {
-            return Integer.parseInt(response.getBody());
-        } else {
-            log.error("Error: " + response.getBody());
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+            if(Objects.requireNonNull(response.getBody()).matches("\\d+")) {
+                return Integer.parseInt(response.getBody());
+            } else {
+                log.error("Error: " + response.getBody());
+                return -1;
+            }
+        } catch (Exception e) {
+            log.error("Error: " + e.getMessage());
             return -1;
         }
     }

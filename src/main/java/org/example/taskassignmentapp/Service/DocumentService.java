@@ -52,13 +52,15 @@ public class DocumentService {
         }
     }
 
-    public void deleteDocument(String documentId, String username, String password) {
+    public boolean deleteDocument(String documentId, String username, String password) {
         String url = databaseService.getCollectionUrl() + "/documents/" + documentId;
         try {
             makeRequest(url, HttpMethod.DELETE, null, username, password);
             log.info("Document deleted successfully");
+            return true;
         } catch (HttpStatusCodeException e) {
             log.error("Failed to delete document: with status code: " + e.getStatusCode() + " and message: " + e.getResponseBodyAsString());
+            return false;
         }
     }
 
@@ -95,6 +97,15 @@ public class DocumentService {
         } catch (Exception e) {
             log.error("Failed to fetch all documents by property : " + propertyName + " value: " + propertyValue + " with error: " + e.getMessage());
             return new ArrayList<>();
+        }
+    }
+    public void deleteAllDocumentsByPropertyValue(String propertyName, String propertyValue, String username, String password) {
+        String url = databaseService.getCollectionUrl() + "/documents?property_name=" + propertyName + "&property_value=\"" + propertyValue+"\"";
+        try {
+            makeRequest(url, HttpMethod.DELETE, null, username, password);
+            log.info("Deleted all documents by property : " + propertyName + " value: " + propertyValue);
+        } catch (HttpStatusCodeException e) {
+            log.error("Failed to delete all documents by property : " + propertyName + " value: " + propertyValue + " with status code: " + e.getStatusCode() + " and message: " + e.getResponseBodyAsString());
         }
     }
 

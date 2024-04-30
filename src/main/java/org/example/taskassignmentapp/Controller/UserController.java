@@ -51,7 +51,7 @@ public class UserController {
     public String deleteUser(@PathVariable("username") String username,
                              Model model) {
         if(userService.deleteUser(username, "admin", "admin")){
-            model.addAttribute("success", "User deleted successfully");
+            model.addAttribute("success", "User with username: " + username + " and their tasks have been deleted successfully");
         }else{
             model.addAttribute("error", "User deletion failed");
         }

@@ -1,5 +1,6 @@
 package org.example.taskassignmentapp.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,6 +16,7 @@ import org.example.taskassignmentapp.Enum.TaskStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Task {
+    @JsonIgnore
     private String id;
     @JsonProperty(required = true)
     private String title;
@@ -29,7 +31,6 @@ public class Task {
     private String endDate;
     @JsonProperty
     private TaskStatus status;
-
 
 
     public Task(@NonNull String title, @NonNull String description, @NonNull String assigner, @NonNull String assignee, @NonNull String startDate, String endDate) {

@@ -65,6 +65,13 @@
 						<button type="submit" class="btn btn-primary mt-2">Update Status</button>
 					</form>
 				</td>
+				<td>
+					<form th:if="${#ctx.session.user != null && #ctx.session.user.role.toString() == 'ADMIN'}" th:action="@{/task-app/api/tasks/{taskId}(taskId=${task.id})}" method="post">
+						<input type="hidden" name="username" th:value="${username}" />
+						<input type="hidden" name="_method" value="delete" />
+						<button type="submit" class="btn btn-danger">Delete Task</button>
+					</form>
+				</td>
 			</tr>
 			</tbody>
 		

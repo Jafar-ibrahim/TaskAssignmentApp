@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.example.taskassignmentapp.Enum.Role;
 import org.example.taskassignmentapp.Model.User;
 import org.example.taskassignmentapp.Model.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,12 @@ import java.util.stream.Collectors;
 @Log4j2
 @Service
 public class UserService {
-
     private final String BASE_URL = "http://host.docker.internal:8082/bootstrapper/users";
+    private final TaskService taskService;
+    @Autowired
+    public UserService(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     public Optional<UserDTO> addUser(User user,
                                      String adminUsername, String adminPassword) {
@@ -61,7 +66,8 @@ public class UserService {
         RestTemplate restTemplate = new RestTemplate();
         try {
             restTemplate.exchange(url,HttpMethod.DELETE,requestEntity,String.class);
-            log.info("User with username: " + username + " deleted successfully");
+            taskService.deleteTasksByAssignee(username, adminUsername, adminPassword);
+            log.info("User with username: " + username + " and their tasks have been deleted successfully");
             return true;
         } catch (HttpStatusCodeException e) {
             log.error("Failed to delete user: with status code: " + e.getStatusCode() + " and message: " + e.getResponseBodyAsString());

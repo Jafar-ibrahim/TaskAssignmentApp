@@ -76,6 +76,16 @@ public class TaskController {
         model.addAttribute("username", username);
         return "user_tasks";
     }
+    @RequestMapping(value = "/{taskId}", method = RequestMethod.DELETE)
+    public String deleteTask(@PathVariable String taskId,
+                             @RequestParam String username, Model model) {
+        if(taskService.deleteTask(taskId, "admin", "admin")) {
+            model.addAttribute("success", "Task deleted successfully");
+        }else{
+            model.addAttribute("error", "Task deletion failed");
+        }
+        return getUserTasks(username, model);
+    }
 
     @PostMapping("/status")
     public String updateTaskStatus(@RequestParam("taskId") String taskId,
