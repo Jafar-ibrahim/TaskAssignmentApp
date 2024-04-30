@@ -53,6 +53,8 @@
 				<td th:text="${task.startDate}"></td>
 				<td th:text="${task.endDate}"></td>
 				<td th:text="${task.status}"></td>
+				<td th:if="${#ctx.session.user != null && #ctx.session.user.role.toString() == 'ADMIN'}"></td>
+				<td th:if="${#ctx.session.user != null && #ctx.session.user.role.toString() == 'ADMIN'}"></td>
 				<td>
 					<form th:action="@{/task-app/api/tasks/status}" method="post">
 						<input type="hidden" name="taskId" th:value="${task.id}" />
