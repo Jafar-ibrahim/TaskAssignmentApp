@@ -1,4 +1,4 @@
-package org.example.taskassignmentapp.Security;
+package org.example.taskassignmentapp.Util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
